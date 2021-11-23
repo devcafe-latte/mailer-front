@@ -1,0 +1,25 @@
+<ng-container *ngIf="loggedIn; else notLoggedIn">
+  <button
+    mat-button
+    [matMenuTriggerFor]="profileMenu"
+    [attr.aria-label]="prefix + 'profile-button-aria-label' | translate"
+  >
+    <span>{{ name }}</span>
+    <mat-icon class="ml-2">account_circle</mat-icon>
+  </button>
+  
+  <mat-menu #profileMenu="matMenu" xPosition="before">
+    <a mat-menu-item [href]="accountsPage">
+      {{ "actions.profile" | translate }}
+    </a>
+    <button mat-menu-item (click)="logout()">
+      {{ "actions.logout" | translate }}
+    </button>
+  </mat-menu>
+</ng-container>
+
+<ng-template #notLoggedIn>
+  <button mat-button (click)="login()">
+    {{ "actions.login" | translate }}
+  </button>
+</ng-template>

@@ -1,0 +1,95 @@
+<h2 class="d-flex">
+  <span>{{ prefix + 'title' | translate : project }}</span>
+  <small class="ml-2">{{ prefix + 'missing' | translate : tree }}</small>
+
+  <span class="nav-spacer"></span>
+  <button mat-button class="mr-2" color="primary" aria-label="Save button" [disabled]="form.pristine" (click)="reset()">
+    {{ prefix + 'reset' | translate }}
+  </button>
+  <button mat-raised-button color="primary" aria-label="Save button" [disabled]="form.pristine" (click)="save()">
+    {{ prefix + 'save' | translate }}
+  </button>
+</h2>
+
+<form [formGroup]="filterForm">
+  <section id="search">
+    <mat-form-field appearance="fill" [style.width.px]="500">
+      <mat-label>{{ prefix + 'search' | translate }}</mat-label>
+      <input matInput formControlName="q">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </section>
+
+  <section id="filters" class="mb-4 d-flex align-items-center">
+    <mat-icon aria-hidden="false" class="pr-2" aria-label="Filter icon">filter_list</mat-icon>
+
+    <mat-button-toggle-group formControlName="filter" aria-label="Font Style">
+      <mat-button-toggle value="all">{{ prefix + 'filter.all' | translate }}</mat-button-toggle>
+      <mat-button-toggle value="missing">{{ prefix + 'filter.missing' | translate }}</mat-button-toggle>
+      <mat-button-toggle value="changed">{{ prefix + 'filter.changed' | translate }}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </section>
+</form>
+
+
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="translation-tree">
+
+  <!-- This is the tree node template for leaf nodes -->
+  <!-- There is inline padding applied to this node using styles.
+    This padding value depends on the mat-icon-button width. -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle class="mb-4">
+    <app-translation-node [node]="node"></app-translation-node>
+  </mat-tree-node>
+
+
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <div class="mat-tree-node">
+      <button class="pl-0" mat-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+        {{ node.name }} ({{ prefix + 'node-summary' | translate : node }}
+        <span *ngIf="node.missing > 0">, {{ prefix + 'missing-values' | translate : node }}</span>)
+
+      </button>
+
+      <!-- Todo add delete button for groups. -->
+      <!-- <button mat-button color="primary">
+        <mat-icon>clear</mat-icon>
+        <span>{{ prefix + 'delete' | translate }}</span>
+      </button> -->
+    </div>
+
+    <!-- There is inline padding applied to this div using styles.
+          This padding value depends on the mat-icon-button width.  -->
+    <div *ngIf="treeControl.isExpanded(node)" role="group">
+      <ng-container matTreeNodeOutlet></ng-container>
+
+      <button mat-button color="primary" aria-label="Add string" (click)="addString(node)">
+        {{ prefix + 'add-string' | translate }}
+      </button>
+
+      <button mat-button color="primary" aria-label="Add group" (click)="addGroup(node)">
+        {{ prefix + 'add-group' | translate }}
+      </button>
+
+      <small class="grey-500">({{ node.name }})</small>
+      <hr class="mb-4">
+    </div>
+
+
+  </mat-nested-tree-node>
+
+
+</mat-tree>
+<button mat-button color="primary" aria-label="Add string" (click)="addString(tree)">
+  {{ prefix + 'add-string' | translate }}
+</button>
+
+<button mat-button color="primary" aria-label="Add group" (click)="addGroup(tree)">
+  {{ prefix + 'add-group' | translate }}
+</button>
+
+<small>({{ prefix + 'root-node' | translate }})</small>

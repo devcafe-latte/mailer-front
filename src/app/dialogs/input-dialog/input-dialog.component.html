@@ -1,0 +1,24 @@
+<form [formGroup]="form">
+  <h3 mat-dialog-title>{{ prefix + 'title' | translate }}</h3>
+  <div mat-dialog-content [style.width.px]="350">
+
+    <p *ngIf="showContent">{{prefix + 'content' | translate }}</p>
+
+    <div>
+      <mat-form-field appearance="fill" [style.width.%]="100">
+        <mat-label>{{ prefix + 'name' | translate }}</mat-label>
+        <input matInput formControlName="control">
+        <mat-error *ngFor="let e of getErrors()">{{ prefix + 'errors.' + e | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button type="button" mat-button color="primary" 
+    (click)="cancel()">{{ prefix + 'cancel' | translate }}</button>
+    <button type="submit" mat-raised-button color="primary" (click)="confirm()">
+      {{ prefix + 'confirm' | translate }}
+    </button>
+  </div>
+</form>

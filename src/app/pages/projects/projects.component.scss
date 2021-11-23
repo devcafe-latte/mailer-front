@@ -1,0 +1,14 @@
+@import '/src/styles/theme';
+
+.flipped {
+  transform: scaleY(-1);
+}
+
+.flippable {
+  transition: transform .2s ease;
+}
+
+.deleted {
+  background: getWarn(50);
+  color: getWarnContrast(50);
+}

@@ -1,0 +1,200 @@
+{
+  "title": "Translations Manager",
+  "navbar": {
+    "title": "Menu",
+    "projects": "Projects"
+  },
+  "paginator": {
+    "first-page": "First page",
+    "last-page": "Last page",
+    "next-page": "Next page",
+    "prev-page": "Prev page",
+    "per-page": "Per page",
+    "page-1-of-1": "Page 1 / 1",
+    "page-x-of-y": "Page {{ x }} / {{ y }}"
+  },
+  "toasts": {
+    "errors": { 
+      "project-name-taken" : "Project Name is already taken"
+    }
+  },
+  "unauthorized": {
+    "title": "Unauthorized",
+    "content": "The Translations Manager is reserved for admins only. You currently do not have the right access.",
+    "footer": "Required role: <b>translations-admin</b>"
+  },
+  "actions": {
+    "logout": "Log out",
+    "profile": "My Profile",
+    "login": "Login"
+  },
+  "logged-out": {
+    "title": "You are logged out",
+    "subtitle": "This area is off-limits",
+    "content": "To use the Translations Manager you need to login."
+  },
+  "translations": {
+    "title": "Edit Translations: ",
+    "lang": "Language",
+    "env": "Environment",
+    "all-versions": "Latest",
+    "version": "Version",
+    "import": "Import Language Files (YAML or JSON)",
+    "export": "Export Language Files",
+    "export-yaml": "Export as YAML",
+    "export-json": "Export as JSON",
+    "import-dialog": {
+      "title": "Import Translations from File",
+      "content": "<strong>Note:</strong> by saving you are overwriting the current version.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "lang": "Language",
+      "env": "Environment",
+      "version": "Version"
+    },
+    "new-dialog": {
+      "title": "Add Translation for {{name}}",
+      "content": "Language and Environment can either be existing or new. If both language and environment already exist, this will create a new version on top of the existing one.",
+      "new-lang": "The language <code class=\"badge\">{{lang}}</code> will be created.",
+      "new-env": "The environment <code class=\"badge\">{{env}}</code> will be created.",
+      "new-env-and-lang": "The language <code class=\"badge\">{{lang}}</code> and the environment <code class=\"badge\">{{env}}</code> will be created.",
+      "new-version": "A new version will be created for language <code class=\"badge\">{{lang}}</code> and environment <code class=\"badge\">{{env}}</code>.",
+      "lang": "Language",
+      "env": "Environment",
+      "cancel": "Go back",
+      "confirm": "Continue",
+      "lang-invalid": "Invalid language. Example: de, en-GB",
+      "env-invalid": "Can only contain letters, numbers and dashes."
+    }
+  },
+  "tree": {
+    "title": "Project: {{ name }}",
+    "save": "Save Changes",
+    "reset": "Reset",
+    "add-string": "add string",
+    "add-group": "add group",
+    "missing": "{{ missing }} missing values",
+    "node-summary": "{{ children.length }} values",
+    "missing-values": "{{ missing }} missing",
+    "base-lang": "Base",
+    "root-node": "root",
+    "current-lang": "Language",
+    "env": "Environment",
+    "search": "Search",
+    "add-string-dialog": {
+      "title": "Add String",
+      "content": "",
+      "cancel": "Go back",
+      "confirm": "Continue",
+      "name": "Key",
+      "errors": {
+        "pattern": "Only letters, characters and dashes are allowed.",
+        "illegal-value": "Key names must be unique"
+      }
+    },
+    "add-group-dialog": {
+      "title": "Add Group",
+      "content": "",
+      "cancel": "Go back",
+      "confirm": "Continue",
+      "name": "Key",
+      "errors": {
+        "pattern": "Only letters, characters and dashes are allowed.",
+        "illegal-value": "Key names must be unique"
+      }
+    },
+    "confirm-reset": {
+      "content": "This will reset all unsaved changed. Are you sure?",
+      "confirm": "Yes",
+      "cancel": "No"
+    },
+    "filter": {
+      "all": "All",
+      "missing": "Missing",
+      "changed": "Changed"
+    }
+  },
+  "projects": {
+    "title": "Project Overview",
+    "modified": "Modified",
+    "add": "New Project",
+    "search-placeholder": "Search Name",
+    "order-by": "Order By",
+    "order-name": "Name",
+    "order-created": "Created",
+    "order-updated": "Modified",
+    "show-deleted": "Show Deleted Projects",
+    "search": "Apply",
+    "no-results-title": "No results found",
+    "no-results-content": "<p>Your search didn't return any results. Try to broaden your search.</p><b>Tip:</b> Searching for name will only match on the beginning of the name.",
+    "reset-form": "Show everything",
+    "details": {
+      "title": "Project Details: ",
+      "deleted-title": "<b>This project is not active</b>",
+      "deleted-content": "<b>This project is not active.</b> To restore this project, click the button.",
+      "restore-project": "Restore Project",
+      "envs": "Environments",
+      "langs": "Languages",
+      "default": "default",
+      "created": "created",
+      "delete": "Remove Translation",
+      "restore": "Restore Translation",
+      "add-translation": "Add Translation",
+      "modified": "modified",
+      "deleted": "deleted",
+      "version": "version",
+      "env": "Environment",
+      "lang": "Language",
+      "show-deleted": "Show Deleted Translations",
+      "updated": "Modified",
+      "translations": "Translations / versions",
+      "translations-content": "Note on versions: Newer versions are always 'merged' with older ones of the same environment and language.",
+      "delete-confirm": {
+        "content": "Are you sure you want to delete <strong>{{ name }}</strong>?",
+        "cancel": "Go back",
+        "confirm": "Delete"
+      },
+      "delete-translation-confirm": {
+        "content": "Really remove the following Translation? <ul><li>Version: <b>{{id}}</b></li><li>Language: <b>{{lang}}</b></li><li>Environment: <b>{{env}}</b></li></ul>",
+        "cancel": "Go back",
+        "confirm": "Delete"
+      },
+      "restore-translation-confirm": {
+        "content": "Really restore the following Translation? <ul><li>Version: <b>{{id}}</b></li><li>Language: <b>{{lang}}</b></li><li>Environment: <b>{{env}}</b></li></ul>",
+        "cancel": "Go back",
+        "confirm": "Restore"
+      },
+      "restore-project-confirm": {
+        "content": "Restore project <b> {{name}}</b>?",
+        "cancel": "Go back",
+        "confirm": "Restore Project"
+      }
+    },
+    "dialog": {
+      "title-new": "New Project",
+      "content-new": "Project name should be a url friendly name. No spaces or symbols. Only letters, numbers and dashes (-) allowed.",
+      "title-edit": "{{ name }}",
+      "content-edit": "<strong>Warning:</strong> Updating project name can cause existing configurations to stop working. Only update if you know what you are doing.",
+      "cancel": "Go back",
+      "confirm": "Save",
+      "default-lang": "Default Language",
+      "lang-invalid": "Invalid language. Example: de, en-GB",
+      "default-env": "Default Environment",
+      "env-invalid": "Name can only contain letters, numbers and dashes",
+      "name": "Project Name",
+      "pattern": "Name can only contain letters, numbers and dashes",
+      "name-taken": "Name is not unique"
+    }
+  },
+  "tree-node": {
+    "base": "base: ",
+    "to-textarea": "Switch to Long text",
+    "to-input": "Switch to Short text",
+    "delete": "Remove String",
+    "deleted": "Value Removed",
+    "restore": "Restore String",
+    "no-value": "No value",
+    "switch-input-type": "Switch long / short text"
+  }
+
+}

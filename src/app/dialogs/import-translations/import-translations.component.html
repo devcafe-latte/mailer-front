@@ -1,0 +1,24 @@
+<h3 mat-dialog-title>{{ prefix + 'title' | translate }}</h3>
+<mat-dialog-content>
+  <mat-chip-list aria-label="Fish selection">
+    <mat-chip>{{ prefix + 'env' | translate}}: {{ data.translation.env }}</mat-chip>
+    <mat-chip>{{ prefix + 'lang' | translate}}: {{ data.translation.lang }}</mat-chip>
+    <mat-chip>{{ prefix + 'version' | translate}}: {{ data.translation.id }}</mat-chip>
+  </mat-chip-list>
+  <div class="mt-2" [innerHtml]="prefix + 'content' | translate"></div>
+
+  <pre><code [highlight]="yaml"></code></pre>
+</mat-dialog-content>
+
+<mat-dialog-actions align="start">
+  <button mat-button mat-dialog-close>{{ prefix + 'cancel' | translate }}</button>
+
+  <span class="nav-spacer"></span>
+
+  <!-- todo add different ways of saving. -->
+  <!-- <button mat-button color="primary">
+    advanced
+  </button> -->
+  <button mat-raised-button (click)="save()" cdkFocusInitial color="primary">{{ prefix + 'save' | translate }}</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,49 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+@include mat.core();
+
+@import 'styles/theme';
+
+@include mat.all-component-themes($mailer-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+strong, b {
+  font-weight: 500;
+}
+
+code.badge {
+  background-color: #ddd;
+  padding: .1rem .4rem;
+  border-radius: 10%;
+}
+
+.v-align-top {
+  > * {
+    vertical-align: top;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.nav-spacer {
+  flex: 1 1 auto;
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Add Boostratps css utilities as Material doesn't seem to have those. */
+/* While Angular Material does have a grid, it's meant for image grids and stuff. Not for normal layouting. So we add that too. */
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities";

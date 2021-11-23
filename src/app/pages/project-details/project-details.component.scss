@@ -1,0 +1,11 @@
+@import '/src/styles/theme';
+
+.mat-row.deleted {
+  background: getWarn(50);
+  color: getWarn(900);
+}
+
+.warning {
+  background: getWarn(50);
+  color: getWarnContrast(50);
+}

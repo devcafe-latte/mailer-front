@@ -1,0 +1,31 @@
+<form [formGroup]="form">
+  <fieldset [disabled]="loading">
+    <h2 mat-dialog-title>{{ prefix + 'title' | translate : data.project }}</h2>
+    <div mat-dialog-content [style.max-width.px]="350">
+      <p>{{prefix + 'content' | translate : data.project }}</p>
+
+      <div>
+        <mat-form-field appearance="fill" [style.width.%]="100">
+          <mat-label>{{ prefix + 'lang' | translate }}</mat-label>
+          <input matInput formControlName="lang">
+          <mat-error>{{ prefix + 'lang-invalid' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" [style.width.%]="100">
+          <mat-label>{{ prefix + 'env' | translate }}</mat-label>
+          <input matInput formControlName="env">
+          <mat-error>{{ prefix + 'env-invalid' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div [innerHtml]="getNotice() | translate : form.value"></div>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button [disabled]="loading" type="button" mat-button color="primary" (click)="cancel()">{{ prefix + 'cancel' | translate }}</button>
+      <button [disabled]="loading" type="submit" mat-raised-button color="primary" [disabled]="form.invalid" (click)="confirm()">
+        {{ prefix + 'confirm' | translate }}
+      </button>
+    </div>
+  </fieldset>
+</form>

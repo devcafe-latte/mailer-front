@@ -1,0 +1,80 @@
+<div class="container pt-2">
+  <mat-toolbar>
+    <button mat-icon-button class="mr-2" color="primary" aria-label="Back button" [routerLink]="['../']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{ prefix + 'title' | translate }} {{ project?.name }}</span>
+    <span class="nav-spacer"></span>
+
+    <!-- Download -->
+    <button mat-icon-button [matTooltip]="prefix + 'export' | translate" class="mr-2" color="primary"
+      aria-label="Export button" [matMenuTriggerFor]="downloadMenu">
+      <mat-icon fontSet="material-icons-outlined">cloud_download</mat-icon>
+    </button>
+    <mat-menu #downloadMenu="matMenu" xPosition="before">
+      <button (click)="export('yaml')" mat-menu-item>{{ prefix + 'export-yaml' | translate }}</button>
+      <button (click)="export('json')" mat-menu-item>{{ prefix + 'export-json' | translate }}</button>
+    </mat-menu>
+
+    <!-- Upload -->
+    <button mat-icon-button [matTooltip]="prefix + 'import' | translate" class="mr-2" color="primary"
+      aria-label="Import button" (click)="fileInput.click()">
+      <mat-icon fontSet="material-icons-outlined">file_upload</mat-icon>
+    </button>
+    <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file" accept=".yaml,.yml,.json">
+
+
+  </mat-toolbar>
+
+  <!-- Project info -->
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+
+
+  <mat-card class="mt-2 mb-2" *ngIf="project">
+
+    <mat-card-content>
+      <form [formGroup]="viewForm">
+        <div class="row">
+          <div class="col-auto">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ prefix + 'lang' | translate }}</mat-label>
+              <mat-select formControlName="lang">
+                <mat-option [value]="l" *ngFor="let l of project.langs">{{ l }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-auto">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ prefix + 'env' | translate }}</mat-label>
+              <mat-select formControlName="env">
+                <mat-option [value]="l" *ngFor="let l of project.envs">{{ l }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-auto">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ prefix + 'version' | translate }}</mat-label>
+              <mat-select formControlName="version">
+                <mat-option [value]="v" *ngFor="let v of project.versions">{{ v }}</mat-option>
+                <mat-option [value]="infinity">{{ prefix + 'all-versions' | translate }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-content>
+      <app-translation-tree *ngIf="project" [(loading)]="loading" [project]="project" [viewForm]="viewForm">
+      </app-translation-tree>
+      <!-- In the future we can add other editors. -->
+    </mat-card-content>
+
+  </mat-card>
+
+
+</div>

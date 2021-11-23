@@ -1,0 +1,103 @@
+<div class="container pt-2">
+  <mat-toolbar>
+    <span>{{ prefix + "title" | translate }}</span>
+    <span class="nav-spacer"></span>
+    <button
+      mat-button
+      class="mr-2"
+      color="primary"
+      aria-label="Add button"
+      (click)="add()"
+    >
+      {{ prefix + "add" | translate }}
+    </button>
+  </mat-toolbar>
+
+  <mat-card class="my-2 mat-elevation-z0">
+    <form [formGroup]="form" (ngSubmit)="search()">
+      <fieldset class="row align-items-center">
+        <div class="col">
+          <mat-form-field appearance="standard" [style.width.%]="100">
+            <mat-icon matPrefix>search</mat-icon>
+
+            <mat-label>
+              {{ prefix + "search-placeholder" | translate }}
+            </mat-label>
+            <input matInput type="text" formControlName="projectName" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-auto">
+          <mat-form-field appearance="standard">
+            <mat-label>{{ prefix + 'order-by' | translate }}</mat-label>
+            <mat-select formControlName="orderBy">
+              <mat-option value="name">
+                {{ prefix + 'order-name' | translate }}
+              </mat-option>
+              <mat-option value="created">
+                {{ prefix + 'order-created' | translate }}
+              </mat-option>
+              <mat-option value="updated">
+                {{ prefix + 'order-updated' | translate }}
+              </mat-option>
+            </mat-select>
+
+            <button type="button" matSuffix mat-icon-button aria-label="Toggle Sort Ascending / Descending" (click)="toggleAsc($event)">
+              <mat-icon class="flippable" [class.flipped]="form.get('orderAsc').value">sort</mat-icon>
+            </button>
+          
+          </mat-form-field>
+        </div>
+
+        <div class="col-auto">
+          <mat-checkbox color="primary" formControlName="showDeleted">
+            {{ prefix + "show-deleted" | translate }}
+          </mat-checkbox>
+        </div>
+
+        <div class="col-auto">
+          <button type="submit" mat-button color="primary">{{ prefix + 'search' | translate }}</button>
+        </div>
+      </fieldset>
+    </form>
+  </mat-card>
+
+  <mat-card *ngIf="page?.items.length === 0" class="text-center mx-auto mt-4" [style.max-width.px]="500">
+    <h2>{{ prefix + 'no-results-title' | translate }}</h2>
+    <h3 [innerHtml]="prefix + 'no-results-content' | translate"></h3>
+    <button mat-button color="primary" (click)="reset()">
+      {{ prefix + 'reset-form' | translate }}
+    </button>
+  </mat-card>
+
+  <mat-card
+    [routerLink]="[p.name]"
+    matRipple
+    class="clickable mt-2"
+    [class.deleted]="p.deleted"
+    *ngFor="let p of page?.items"
+  >
+    <mat-card-header>
+      <mat-card-title>
+        {{ p.name }}
+      </mat-card-title>
+      <mat-card-subtitle class="mb-0"
+        >{{ prefix + "modified" | translate }}:
+        {{ p.updated | luxon }}</mat-card-subtitle
+      >
+      <mat-card-subtitle *ngIf="p.deleted" class="mb-0 mt-1"
+        >{{ prefix + "deleted" | translate }}:
+        {{ p.deleted | luxon }}</mat-card-subtitle
+      >
+    </mat-card-header>
+  </mat-card>
+
+  <mat-paginator
+    *ngIf="page?.items.length"
+    [length]="page.totalItems"
+    [pageSize]="page.perPage"
+    (page)="pageChange($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

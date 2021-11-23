@@ -1,0 +1,47 @@
+<div class="v-align-top">
+  <div class="d-inline-block pt-4" [style.min-width.px]="150">
+    <strong class="mr-4">{{ node.name }}</strong>
+  </div>
+
+  <div class="d-inline-block">
+    <div class="v-align-top">
+
+      <mat-form-field appearance="fill" [style.width.px]="500">
+        <input *ngIf="!showTextarea" matInput [placeholder]="prefix + (isRemoved ? 'deleted' : 'no-value') | translate"
+          [formControl]="node.control" [readonly]="isRemoved">
+        <textarea *ngIf="showTextarea" rows="4" matInput
+          [placeholder]="prefix + (isRemoved ? 'deleted' : 'no-value') | translate"
+          [formControl]="node.control" [readonly]="isRemoved"></textarea>
+        <mat-icon matSuffix *ngIf="node.missing" class="d-inline-block" color="warn">info_outline</mat-icon>
+      </mat-form-field>
+
+      <button mat-icon-button [matTooltip]="prefix + 'more' | translate" [matMenuTriggerFor]="menu"
+        [attr.aria-label]="prefix + 'more' | translate">
+        <mat-icon color="primary">more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="showTextarea = !showTextarea">
+          <mat-icon>{{ showTextarea ? 'short_text' : 'notes'}}</mat-icon>
+          <span>{{ prefix + (showTextarea ? 'to-input' : 'to-textarea') | translate }}</span>
+        </button>
+
+
+        <button mat-menu-item (click)="remove()" *ngIf="!isRemoved">
+          <mat-icon>clear</mat-icon>
+          <span>{{ prefix + 'delete' | translate }}</span>
+        </button>
+
+        <button mat-menu-item (click)="restore()" *ngIf="isRemoved">
+          <mat-icon>undo</mat-icon>
+          <span>{{ prefix + 'restore' | translate }}</span>
+        </button>
+      </mat-menu>
+
+
+    </div>
+    <div *ngIf="node.baseValue">
+      <small>{{ prefix + 'base' | translate }}</small>
+      <i>{{ node.baseValue }}</i>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="container mt-4">
+  <h1>{{ prefix + 'title' | translate }}</h1>
+  <!-- <h2>{{ prefix + 'subtitle' | translate }}</h2> -->
+  <div class="pb-4" [innerHtml]="prefix + 'content' | translate"></div>
+
+  <small class="mt-4" [innerHtml]="prefix + 'footer' | translate"></small>
+</div>

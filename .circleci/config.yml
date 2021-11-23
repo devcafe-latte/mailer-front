@@ -1,0 +1,64 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    environment:
+      IMAGE_NAME: crispyduck/mailer-front
+    working_directory: ~/app
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: "20.10.6"
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Push Docker Image
+          command: |
+            mkdir -p ~/.docker
+            echo "$DOCKER_PASS" | docker login -u crispyduck --password-stdin
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:$CIRCLE_SHA1
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$CIRCLE_SHA1
+      - slack/status:
+          fail_only: true
+
+  test-env:
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Install envsubst
+          command: |
+            sudo apt-get update && sudo apt-get -y install gettext-base
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.8/bin/linux/amd64/kubectl
+            chmod u+x ./kubectl
+      - run:
+          name: Deploy To Test Environment
+          command: ./deploy/ci-deploy.sh test
+      - slack/status: {}
+
+orbs:
+  slack: circleci/slack@3.4.2
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build:
+          context: sys11-context
+          filters:
+            branches:
+              only: main
+      - test-env:
+          context: sys11-context
+          requires:
+          - build
+          

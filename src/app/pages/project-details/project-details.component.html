@@ -1,0 +1,190 @@
+<div class="container pt-2">
+  <mat-toolbar>
+    <button
+      mat-icon-button
+      class="mr-2"
+      color="primary"
+      aria-label="Back button"
+      [routerLink]="['../']"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{ prefix + "title" | translate }} {{ project?.name }}</span>
+    <span class="nav-spacer"></span>
+    <ng-container *ngIf="!project?.deleted">
+      <button
+        mat-icon-button
+        class="mr-2"
+        color="primary"
+        aria-label="Edit button"
+        (click)="edit()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="mr-2"
+        color="primary"
+        aria-label="Delete button"
+        (click)="delete()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </ng-container>
+  </mat-toolbar>
+
+  <mat-card class="mt-2 mb-2 warning mat-elevation-z0" *ngIf="project?.deleted">
+    <div class="row">
+      <div class="col">
+        <h3 [innerHtml]="prefix + 'deleted-content' | translate"></h3>
+      </div>
+      <div class="col-auto">
+        <button mat-raised-button (click)="restoreProject()">
+          {{ prefix + "restore-project" | translate }}
+        </button>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Project info -->
+  <mat-card class="mt-2 mb-2">
+    <ng-container *ngIf="project">
+      <mat-card-title>
+        {{ project.name }}
+      </mat-card-title>
+      <mat-card-subtitle class="mb-0">
+        {{ prefix + "created" | translate }}: {{ project.created | luxon }}
+      </mat-card-subtitle>
+      <mat-card-subtitle [class.mb-0]="project.deleted">
+        {{ prefix + "modified" | translate }}: {{ project.updated | luxon }}
+      </mat-card-subtitle>
+      <mat-card-subtitle *ngIf="project.deleted">
+        {{ prefix + "deleted" | translate }}: {{ project.deleted | luxon }}
+      </mat-card-subtitle>
+
+      <mat-card-content>
+        <h3 class="mb-0">{{ prefix + "envs" | translate }}</h3>
+        <mat-chip-list [selectable]="false" aria-label="Environments" multi>
+          <mat-chip
+            color="primary"
+            selected
+            *ngFor="let e of project.envs"
+            [disableRipple]="true"
+          >
+            {{ e }}
+            <small class="ml-1" *ngIf="e === project.defaultEnv"
+              ><i>
+                {{ prefix + "default" | translate }}
+              </i></small
+            >
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+
+      <mat-card-content>
+        <h3 class="mb-0">{{ prefix + "langs" | translate }}</h3>
+        <mat-chip-list [selectable]="false" aria-label="Environments" multi>
+          <mat-chip
+            selected
+            color="accent"
+            *ngFor="let l of project.langs"
+            [disableRipple]="true"
+          >
+            {{ l }}
+            <small class="ml-1" *ngIf="l === project.defaultLang"
+              ><i>{{ prefix + "default" | translate }}</i></small
+            >
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </ng-container>
+
+    <h3 class="mb-0 d-flex">
+      {{ prefix + "translations" | translate }}
+      <span class="nav-spacer"></span>
+      <button mat-button (click)="newTranslation()" color="primary" [disabled]="!!project?.deleted">
+        {{ prefix + "add-translation" | translate }}
+      </button>
+    </h3>
+    <div [innerHtml]="prefix + 'translations-content' | translate"></div>
+
+    <mat-slide-toggle class="mt-2" color="warn" [formControl]="showDeleted">
+      {{ prefix + "show-deleted" | translate }}
+    </mat-slide-toggle>
+
+    <table mat-table [dataSource]="dataSource" matSort [style.width.%]="100">
+      <ng-container matColumnDef="id">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{ prefix + "version" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.id }}
+          <small *ngIf="element.deleted" class="ml-2"
+            ><i>{{ prefix + "deleted" | translate }}</i></small
+          >
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lang">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{ prefix + "lang" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.lang }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="env">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{ prefix + "env" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.env }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="updated">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          {{ prefix + "updated" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.updated | luxon }}
+
+          <span class="nav-spacer"></span>
+          <button
+            (mousedown)="$event.stopPropagation()"
+            (click)="$event.stopPropagation()"
+            mat-icon-button
+            color="primary"
+            [matMenuTriggerFor]="optionsMenu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #optionsMenu="matMenu" xPosition="before">
+            <button
+              *ngIf="!element.deleted"
+              mat-menu-item
+              (click)="deleteTranslation(element)"
+            >
+              {{ prefix + "delete" | translate }}
+            </button>
+            <button
+              *ngIf="element.deleted"
+              mat-menu-item
+              (click)="restoreTranslation(element)"
+            >
+              {{ prefix + "restore" | translate }}
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="tableCols"></mat-header-row>
+      <mat-row
+        [routerLink]="['object']"
+        [queryParams]="{ version: row.id, env: row.env, lang: row.lang }"
+        *matRowDef="let row; columns: tableCols"
+        matRipple
+        class="clickable"
+        [class.deleted]="row.deleted"
+      ></mat-row>
+    </table>
+  </mat-card>
+</div>

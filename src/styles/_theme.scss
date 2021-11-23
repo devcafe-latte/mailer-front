@@ -1,0 +1,38 @@
+@use '~@angular/material' as mat;
+@use 'sass:map';
+
+$mailer-primary: mat.define-palette(mat.$indigo-palette, 400, 200, 600, 700);
+$mailer-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$mailer-warn: mat.define-palette(mat.$red-palette);
+
+$mailer-theme: mat.define-light-theme((
+  color: (
+    primary: $mailer-primary,
+    accent: $mailer-accent,
+    warn: $mailer-warn,
+  )
+));
+
+@function getPrimary($col) {
+  @return map.get($mailer-primary, $col);
+}
+
+@function getPrimaryContrast($col) {
+  @return map.get($mailer-primary, 'contrast', $col);
+}
+
+@function getAccent($col) {
+  @return map.get($mailer-accent, $col);
+}
+
+@function getAccentContrast($col) {
+  @return map.get($mailer-accent, 'contrast', $col);
+}
+
+@function getWarn($col) {
+  @return map.get($mailer-warn, $col);
+}
+
+@function getWarnContrast($col) {
+  @return map.get($mailer-warn, 'contrast', $col);
+}

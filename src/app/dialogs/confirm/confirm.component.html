@@ -1,0 +1,5 @@
+<div mat-dialog-content [innerHtml]="data.prefix + 'content' | translate : data.params"></div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="cancel()">{{ data.prefix + 'cancel' | translate }}</button>
+  <button mat-raised-button [color]="data.alert ? 'warn' : 'primary'" (click)="confirm()">{{ data.prefix + 'confirm' | translate }}</button>
+</div>

@@ -1,0 +1,61 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mailer-front
+  namespace: test
+spec:
+  selector:
+    app: mailer
+    role: mailer-front
+    stage: test
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailer-front
+  namespace: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mailer
+      role: mailer-front
+      stage: test
+  template:
+    metadata:
+      labels:
+        app: mailer
+        role: mailer-front
+        stage: test
+    spec:
+      containers:
+      - image: crispyduck/mailer-front:$COMMIT_SHA1
+        name: mailer-front
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        env:
+        - name: ACCOUNTS_URI
+          value: https://accounts.test.nqap.de/auth/realms/Nap01/account/
+        - name: API
+          value: https://texts.test.nqap.de/
+        - name: AUTH_URI
+          value: https://accounts.test.nqap.de/auth
+        - name: REALM
+          value: Nap01
+        - name: CLIENT_URI
+          value: https://admin.texts.test.nqap.de/
+      imagePullSecrets:
+      - name: regcred
